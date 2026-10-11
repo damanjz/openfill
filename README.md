@@ -14,7 +14,8 @@
   <a href="#use">Use</a> &nbsp;·&nbsp;
   <a href="#how-it-works">How it works</a> &nbsp;·&nbsp;
   <a href="#limits">Limits</a> &nbsp;·&nbsp;
-  <a href="#develop">Develop</a>
+  <a href="#develop">Develop</a> &nbsp;·&nbsp;
+  <a href="#contributing">Contribute</a>
 </p>
 
 <p align="center">
@@ -110,6 +111,10 @@ Dev installs only; release packages leave it out. With the OpenFill panel open, 
 It runs every scenario on throwaway documents with a stand-in AI service and writes `selftest\result.json` plus PNG snapshots. Don't touch Photoshop while it runs. `{"only":["fill"]}` runs one scenario; `{"live":"openai"}` runs three real, paid generations with your saved key.
 
 </details>
+
+## Contributing
+
+Contributions are welcome. Every pull request runs the automated tests, gets a code review, and needs the maintainer's approval before it merges; releases are published by the maintainer only. See [CONTRIBUTING.md](CONTRIBUTING.md). Security problems: [SECURITY.md](SECURITY.md).
 
 ## License
 

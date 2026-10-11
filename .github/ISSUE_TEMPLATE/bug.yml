@@ -1,0 +1,38 @@
+name: Bug report
+description: Something in OpenFill doesn't work as described
+labels: [bug]
+body:
+  - type: input
+    id: photoshop
+    attributes:
+      label: Photoshop version
+      description: Help > System Info, first line (for example 27.10.0)
+    validations:
+      required: true
+  - type: input
+    id: openfill
+    attributes:
+      label: OpenFill version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service and mode
+      multiple: true
+      options: [OpenAI, Google Gemini, Fill, Remove, Expand, Variations, Install / panel]
+  - type: textarea
+    id: steps
+    attributes:
+      label: What you did
+      description: Steps, document size, selection, settings.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What happened
+      description: The exact message under the Generate button, and a screenshot if useful. Never paste your API key.
+    validations:
+      required: true

@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest a new mode, service or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that OpenFill doesn't let you do today?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: How it could work. Mockups welcome.

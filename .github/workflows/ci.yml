@@ -1,0 +1,66 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    name: unit (${{ matrix.os }}, node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm test
+      - name: Package builds and leaves the self-test out
+        run: |
+          npm run package
+          node -e "const z=require('fs').readFileSync('dist/openfill-'+require('./package.json').version+'.ccx');if(z.includes('selftest.js'))throw new Error('selftest.js shipped in the .ccx');console.log('ccx ok,',z.length,'bytes')"
+
+  installer:
+    name: installer (windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install into a scratch profile, check the registry entry, uninstall
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP "appdata"
+          New-Item -ItemType Directory -Force "$root\Adobe\UXP\PluginsInfo\v1" | Out-Null
+          '{"plugins":[{"pluginId":"com.other","name":"Other","path":"$localPlugins\External\com.other","status":"enabled","type":"uxp","versionString":"1.0.0"}]}' | Set-Content "$root\Adobe\UXP\PluginsInfo\v1\PS.json" -Encoding ascii
+          powershell -NoProfile -ExecutionPolicy Bypass -File installer/install.ps1 -Source plugin -AppDataRoot $root
+          $info = Get-Content "$root\Adobe\UXP\PluginsInfo\v1\PS.json" -Raw | ConvertFrom-Json
+          $mine = @($info.plugins | Where-Object pluginId -eq "io.github.damanjz.openfill")
+          if ($mine.Count -ne 1) { throw "expected one OpenFill entry, got $($mine.Count)" }
+          if ($mine[0].path -ne '$localPlugins\External\io.github.damanjz.openfill') { throw "path must use backslashes, got $($mine[0].path)" }
+          if (-not (@($info.plugins | Where-Object pluginId -eq "com.other"))) { throw "installer dropped another plugin" }
+          if (-not (Test-Path "$root\Adobe\UXP\Plugins\External\io.github.damanjz.openfill\manifest.json")) { throw "plugin files missing" }
+          $bytes = [IO.File]::ReadAllBytes("$root\Adobe\UXP\PluginsInfo\v1\PS.json")
+          if ($bytes[0] -eq 0xEF) { throw "PS.json written with a BOM" }
+          powershell -NoProfile -ExecutionPolicy Bypass -File installer/uninstall.ps1 -AppDataRoot $root
+          $after = Get-Content "$root\Adobe\UXP\PluginsInfo\v1\PS.json" -Raw | ConvertFrom-Json
+          if (@($after.plugins | Where-Object pluginId -eq "io.github.damanjz.openfill").Count) { throw "uninstall left the entry" }
+          if (Test-Path "$root\Adobe\UXP\Plugins\External\io.github.damanjz.openfill") { throw "uninstall left files" }
+          "installer ok"
+
+  ci:
+    name: ci
+    if: always()
+    needs: [unit, installer]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ "${{ needs.unit.result }}" != "success" ] || [ "${{ needs.installer.result }}" != "success" ]; then
+            echo "unit: ${{ needs.unit.result }}, installer: ${{ needs.installer.result }}"; exit 1
+          fi
