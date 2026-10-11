@@ -26,5 +26,9 @@ Photoshop UXP plugin: generative fill, remove, expand and variations via the use
 ## Done means
 - `npm test` green, `npm run package` builds, and the in-Photoshop self-test passes (Photoshop 2026 v27.10 is at `D:\Adobe\Adobe Photoshop 2026` since 2026-10-12).
 
+## Contributions (set up 2026-10-12)
+- Public repo github.com/damanjz/openfill. Outside changes come as pull requests: CI ("ci" check) must pass, CODEOWNERS makes Daman's approval mandatory, ruleset "main: review gate" blocks direct pushes, force-push and deletion. Daman (admin) has bypass, so our own pushes still go straight to main.
+- When a PR arrives, Daman asks Claude for a code review (`/code-review <PR#>`), then approves or requests changes. Releases are cut by Daman only, after the in-Photoshop self-test passes.
+
 ## Ask Daman first
 - git commit/push, GitHub repo creation, releases, installing into Photoshop, anything outside this folder.
