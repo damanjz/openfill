@@ -38,7 +38,8 @@ jobs:
         run: |
           $root = Join-Path $env:RUNNER_TEMP "appdata"
           New-Item -ItemType Directory -Force "$root\Adobe\UXP\PluginsInfo\v1" | Out-Null
-          '{"plugins":[{"pluginId":"com.other","name":"Other","path":"$localPlugins\External\com.other","status":"enabled","type":"uxp","versionString":"1.0.0"}]}' | Set-Content "$root\Adobe\UXP\PluginsInfo\v1\PS.json" -Encoding ascii
+          # an existing plugin entry the installer must keep (built as an object so the JSON escaping is right)
+          @{ plugins = @(@{ pluginId = "com.other"; name = "Other"; path = '$localPlugins\External\com.other'; status = "enabled"; type = "uxp"; versionString = "1.0.0" }) } | ConvertTo-Json -Depth 5 | Set-Content "$root\Adobe\UXP\PluginsInfo\v1\PS.json" -Encoding ascii
           powershell -NoProfile -ExecutionPolicy Bypass -File installer/install.ps1 -Source plugin -AppDataRoot $root
           $info = Get-Content "$root\Adobe\UXP\PluginsInfo\v1\PS.json" -Raw | ConvertFrom-Json
           $mine = @($info.plugins | Where-Object pluginId -eq "io.github.damanjz.openfill")
