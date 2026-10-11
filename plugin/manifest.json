@@ -1,0 +1,35 @@
+{
+  "manifestVersion": 5,
+  "id": "io.github.damanjz.openfill",
+  "name": "OpenFill",
+  "version": "0.1.0",
+  "main": "index.html",
+  "host": {
+    "app": "PS",
+    "minVersion": "24.4.0"
+  },
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "openfillPanel",
+      "label": { "default": "OpenFill" },
+      "minimumSize": { "width": 240, "height": 360 },
+      "maximumSize": { "width": 2000, "height": 3000 },
+      "preferredDockedSize": { "width": 300, "height": 620 },
+      "preferredFloatingSize": { "width": 300, "height": 620 },
+      "icons": [
+        { "width": 23, "height": 23, "path": "icons/icon-dark.png", "scale": [1, 2], "theme": ["darkest", "dark", "medium"], "species": ["chrome"] },
+        { "width": 23, "height": 23, "path": "icons/icon-light.png", "scale": [1, 2], "theme": ["lightest", "light"], "species": ["chrome"] }
+      ]
+    }
+  ],
+  "icons": [
+    { "width": 48, "height": 48, "path": "icons/plugin.png", "scale": [1, 2], "theme": ["all"], "species": ["pluginList"] }
+  ],
+  "requiredPermissions": {
+    "network": {
+      "domains": ["https://api.openai.com", "https://generativelanguage.googleapis.com"]
+    },
+    "localFileSystem": "plugin"
+  }
+}

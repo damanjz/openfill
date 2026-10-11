@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="app">
+      <div class="modes" role="tablist">
+        <sp-action-button class="mode" data-mode="fill">Fill</sp-action-button>
+        <sp-action-button class="mode" data-mode="remove">Remove</sp-action-button>
+        <sp-action-button class="mode" data-mode="expand">Expand</sp-action-button>
+      </div>
+
+      <section id="promptRow">
+        <sp-label for="prompt" id="promptLabel">Prompt</sp-label>
+        <sp-textarea id="prompt" placeholder="Describe what to add, or leave empty to blend"></sp-textarea>
+      </section>
+
+      <section id="removeHint" class="hint" hidden>Select the object, then Generate. No prompt needed.</section>
+
+      <section id="expandRow" hidden>
+        <div class="row">
+          <sp-label>Add</sp-label>
+          <sp-textfield id="expandPercent" type="number" min="1" max="200" class="num"></sp-textfield>
+          <sp-label>% on</sp-label>
+        </div>
+        <div class="row sides">
+          <sp-checkbox data-side="left">Left</sp-checkbox>
+          <sp-checkbox data-side="right">Right</sp-checkbox>
+          <sp-checkbox data-side="top">Top</sp-checkbox>
+          <sp-checkbox data-side="bottom">Bottom</sp-checkbox>
+        </div>
+      </section>
+
+      <section class="grid2">
+        <div>
+          <sp-label>Service</sp-label>
+          <sp-picker id="provider" size="s"><sp-menu slot="options"></sp-menu></sp-picker>
+        </div>
+        <div>
+          <sp-label>Model</sp-label>
+          <sp-picker id="model" size="s"><sp-menu slot="options"></sp-menu></sp-picker>
+        </div>
+      </section>
+      <section id="customModelRow" hidden>
+        <sp-label>Model ID</sp-label>
+        <sp-textfield id="customModel" placeholder="exact model ID"></sp-textfield>
+      </section>
+
+      <section class="grid3">
+        <div>
+          <sp-label>Variations</sp-label>
+          <sp-picker id="n" size="s"><sp-menu slot="options"></sp-menu></sp-picker>
+        </div>
+        <div>
+          <sp-label>Resolution</sp-label>
+          <sp-picker id="maxTier" size="s"><sp-menu slot="options"></sp-menu></sp-picker>
+        </div>
+        <div id="qualityCell">
+          <sp-label>Quality</sp-label>
+          <sp-picker id="quality" size="s"><sp-menu slot="options"></sp-menu></sp-picker>
+        </div>
+      </section>
+
+      <sp-button id="generate" variant="cta">Generate</sp-button>
+      <div id="status" class="status" aria-live="polite"></div>
+
+      <section id="results" hidden>
+        <sp-label>Variations</sp-label>
+        <div id="thumbs" class="thumbs"></div>
+      </section>
+
+      <sp-divider size="small"></sp-divider>
+
+      <sp-action-button id="toggleSettings" quiet>API keys</sp-action-button>
+      <section id="settings" hidden>
+        <div class="key">
+          <sp-label>OpenAI API key</sp-label>
+          <sp-textfield id="key-openai" type="password" placeholder="sk-..."></sp-textfield>
+          <div class="hint">Get one at platform.openai.com/api-keys</div>
+        </div>
+        <div class="key">
+          <sp-label>Gemini API key</sp-label>
+          <sp-textfield id="key-gemini" type="password" placeholder="AIza..."></sp-textfield>
+          <div class="hint">Get one at aistudio.google.com/apikey</div>
+        </div>
+        <div class="row">
+          <sp-button id="saveKeys" variant="secondary" size="s">Save keys</sp-button>
+          <span id="keyStatus" class="hint"></span>
+        </div>
+        <div class="hint">Keys stay on this computer and go only to the service you pick. You pay that service per image.</div>
+      </section>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+/* Follows Photoshop's own theme (light/dark) through the host variables. */
+body {
+  margin: 0;
+  color: var(--uxp-host-text-color);
+  background-color: var(--uxp-host-background-color);
+  font-size: var(--uxp-host-font-size);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+#app > * + * {
+  margin-top: 10px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.modes {
+  display: flex;
+}
+
+.mode {
+  flex: 1 1 0;
+}
+
+.mode + .mode {
+  margin-left: 4px;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.row > * + * {
+  margin-left: 6px;
+}
+
+.sides sp-checkbox {
+  margin-right: 8px;
+}
+
+.num {
+  width: 64px;
+}
+
+.grid2,
+.grid3 {
+  flex-direction: row;
+}
+
+.grid2 > div,
+.grid3 > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.grid2 > div + div,
+.grid3 > div + div {
+  margin-left: 6px;
+}
+
+sp-picker,
+sp-textfield,
+sp-textarea {
+  width: 100%;
+}
+
+#prompt {
+  height: 72px;
+}
+
+.status {
+  min-height: 16px;
+  color: var(--uxp-host-text-color-secondary);
+}
+
+.status.error {
+  color: #e34850;
+}
+
+.hint {
+  color: var(--uxp-host-text-color-secondary);
+  font-size: 11px;
+}
+
+.thumbs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.thumb {
+  width: calc(50% - 4px);
+  margin: 2px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.thumb.active {
+  border-color: var(--uxp-host-link-text-color, #378ef0);
+}
+
+.thumb img {
+  width: 100%;
+  display: block;
+}
+
+.key {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}

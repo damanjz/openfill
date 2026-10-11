@@ -1,0 +1,11 @@
+{
+  "name": "openfill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generative fill, remove, expand and variations in Photoshop using your own OpenAI or Gemini API key.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "package": "node scripts/package.js"
+  }
+}
